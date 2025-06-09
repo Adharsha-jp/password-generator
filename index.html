@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PASSWORD GENERATOR</title>
+</head>
+<style>
+    body {
+        position: relative;
+        background-color: rgb(66, 58, 48);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 200px;
+    }
+    
+    .container {
+        padding: 20px;
+        background-color: black;
+        border-radius: 20px;
+        width: 700px;
+        height: 40vh;
+    }
+    
+    .header {
+        position: relative;
+        margin: 20px;
+        top: 20px;
+        text-align: center;
+        border-radius: 40px;
+        background-color: white;
+    }
+    
+    .pswd {
+        text-align: center;
+        font-size: 25px;
+        height: 40px;
+        background-color: white;
+        top: 20px;
+        margin-left: 20px;
+        width: 400px;
+        border-radius: 20px;
+        margin: 20px;
+    }
+    
+    .components {
+        display: flex;
+        flex-direction: row;
+        padding: 20px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    button {
+        top: 20px;
+        padding: 10px;
+        left: 20px;
+        width: 100px;
+        height: 40px;
+        border-radius: 20px;
+    }
+    
+    .pswd-btn {
+        background-color: black;
+        color: white;
+    }
+    
+    .settings {
+        display: flex;
+        flex-direction: row;
+        padding: 20px;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        gap: 10px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Password - Generator</h1>
+        </div>
+        <div class="components">
+            <h2 class="pswd" id="password"></h2>
+            <button class="pswd-btn" onclick="generatePassword()">Password</button>
+            <button onclick="copyPassword()">Copy</button>
+        </div>
+        <div class="settings">
+            <input type="range" id="range" onchange="setRange()" max="20"><label>Length:</label>
+            <h4 id="rangeVal"></h4>
+            <input type="checkbox" id="alpha">
+            <label>Characters</label>
+            <input type="checkbox" id="numer">
+            <label>Numbers</label>
+        </div>
+    </div>
+    <script>
+        function setRange() {
+            var range = document.getElementById("range").value;
+            document.getElementById("rangeVal").innerHTML = range;
+        }
+
+        function copyPassword() {
+            var paswd = document.getElementById("password").innerText;
+
+            var tempArea = document.createElement("textArea");
+            tempArea.value = paswd;
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempArea);
+            alert("copied to clipboard");
+        }
+
+        function generatePassword() {
+            var alph = document.getElementById("alpha").checked;
+            var num = document.getElementById("numer").checked;
+            var length = document.getElementById("range").value;
+            let result = "";
+            let randNum = "0123456789/*()_^$%#@&!";
+            let randAlp = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/*()_^$%#@&!";
+            let randMix = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*()_^$%#@&!"
+            if (alph && num) {
+                for (var i = 0; i < length; i++) {
+                    result += randMix.charAt(Math.floor(Math.random() * randMix.length));
+                }
+            } else if (alph) {
+                for (var i = 0; i < length; i++) {
+                    result += randAlp.charAt(Math.floor(Math.random() * randAlp.length));
+                }
+            } else if (num) {
+                for (var i = 0; i < length; i++) {
+                    result += randNum.charAt(Math.floor(Math.random() * randNum.length));
+                }
+            } else {
+                alert("Choose from the options");
+            }
+            document.getElementById("password").innerHTML = result;
+        }
+    </script>
+</body>
+
+</html>
